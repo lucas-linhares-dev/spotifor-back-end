@@ -1,0 +1,310 @@
+const express = require('express')
+const server = express()
+
+server.use(express.json())
+
+const usuarios = [
+    {
+        nome: "Lucas Linhares",
+        idade: 200,
+        email: "lucas@gmail.com",
+        senha: 123,
+        playlists: [
+          {
+            id: 1,
+            nome: "Playlist Lucas",
+            capa: "/imagens/playlist-lofi.jpg",
+            musicas: [
+              {
+                id: 1,
+                nome: "Companions",
+                artista: "Amtrac",
+                audio: "/audios/Amtrac - Companions.mp3"
+              },
+              {
+                id: 2,
+                nome: "Madness To Mayhem",
+                artista: "Amtrac",
+                audio: "/audios/Amtrac - Madness To Mayhem.mp3"
+              }
+            ]
+          },
+          {
+            nome: "Meu Rock",
+            capa: "/imagens/playlist-lofi.jpg",
+            musicas: []
+          },
+          {
+            nome: "Meu pop",
+            capa: "/imagens/playlist-lofi.jpg",
+            musicas: []
+          },
+          {
+            nome: "Meu reggae",
+            capa: "/imagens/playlist-lofi.jpg",
+            musicas: []
+          },
+          {
+            nome: "Pop rock",
+            capa: "/imagens/playlist-lofi.jpg",
+            musicas: []
+          },
+          {
+            nome: "Lucas melhores",
+            capa: "/imagens/playlist-lofi.jpg",
+            musicas: []
+          }
+        ],
+        id: 1
+      },
+      {
+        nome: "Mateus Souza Silva",
+        idade: 18,
+        email: "mateus@gmail.com",
+        senha: 123,
+        playlists: [
+          {
+            id: 1,
+            nome: "Playlist Mateus",
+            capa: "/imagens/playlist-lofi.jpg",
+            musicas: [
+              {
+                id: 1,
+                nome: "Companions",
+                artista: "Amtrac",
+                audio: "/audios/Amtrac - Companions.mp3"
+              },
+              {
+                id: 2,
+                nome: "Madness To Mayhem",
+                artista: "Amtrac",
+                audio: "/audios/Amtrac - Madness To Mayhem.mp3"
+              }
+            ]
+          },
+          {
+            nome: "mateus rock",
+            capa: "/imagens/playlist-lofi.jpg",
+            musicas: []
+          }
+        ],
+        id: 2
+      },
+      {
+        nome: "Levi Linhares",
+        idade: 25,
+        email: "levi@gmail.com",
+        senha: 123,
+        playlists: [],
+        id: 3
+      },
+      {
+        nome: "Joao Pedro",
+        idade: 15,
+        email: "joao@gmail.com",
+        senha: 123,
+        playlists: [],
+        id: 4
+      },
+      {
+        nome: "Pedro Emilio",
+        idade: 17,
+        email: "pedro@gmail.com",
+        senha: 123,
+        playlists: [],
+        id: 5
+      }
+]
+
+const playlists = [
+  {
+    id: 1,
+    nome: "Lofi HipHop",
+    capa: "/imagens/playlist-lofi.jpg",
+    musicas: [
+      {
+        id: 1,
+        nome: "Companions",
+        artista: "Amtrac",
+        audio: "/audios/Amtrac - Companions.mp3"
+      },
+      {
+        id: 2,
+        nome: "Madness To Mayhem",
+        artista: "Amtrac",
+        audio: "/audios/Amtrac - Madness To Mayhem.mp3"
+      }
+    ]
+  },
+  {
+    id: 2,
+    nome: "Pop",
+    capa: "/imagens/playlist-pop.jpg",
+    musicas: [
+      {
+        id: 3,
+        nome: "Atlas",
+        artista: "Lane 8",
+        audio: "/audios/Lane 8 - Atlas.mp3"
+      },
+      {
+        id: 4,
+        nome: "Brightest Lights feat. POLIÇA",
+        artista: "Lane 8",
+        audio: "/audios/Lane 8 - Brightest Lights feat. POLIÇA.mp3"
+      }
+    ]
+  },
+  {
+    id: 3,
+    nome: "Rap",
+    capa: "/imagens/playlist-rap.jpg",
+    musicas: [
+      {
+        id: 5,
+        nome: "Fingerprint",
+        artista: "Lane 8",
+        audio: "/audios/Lane 8 - Fingerprint.mp3"
+      },
+      {
+        id: 6,
+        nome: "Lose Yourself to Dance",
+        artista: "Daft Punk",
+        audio: "/audios/Lose Yourself to Dance - Daft Punk.mp3"
+      }
+    ]
+  },
+  {
+    id: 4,
+    nome: "Clássicos do reggae",
+    capa: "/imagens/playlist-reggae.jpg",
+    musicas: [
+      {
+        id: 7,
+        nome: "Meu Novo Mundo",
+        artista: "Charlie Brown",
+        audio: "/audios/Meu Novo Mundo - Charlie Brown.mp3"
+      },
+      {
+        id: 8,
+        nome: "Never Lost",
+        artista: "Amtrac",
+        audio: "/audios/Never Lost - Amtrac.mp3"
+      }
+    ]
+  },
+  {
+    id: 5,
+    nome: "Rock forever",
+    capa: "/imagens/playlist-rock.jpg",
+    musicas: [
+      {
+        id: 9,
+        nome: "Rasta Courage",
+        artista: "Soja",
+        audio: "/audios/Rasta Courage - Soja.mp3"
+      },
+      {
+        id: 10,
+        nome: "True Love",
+        artista: "Soja",
+        audio: "/audios/True Love - Soja.mp3"
+      }
+    ]
+  },
+  {
+    id: 6,
+    nome: "O melhor da MPB",
+    capa: "/imagens/playlist-mpb.jpg",
+    musicas: [
+      {
+        id: 11,
+        nome: "Waiting In Vain",
+        artista: "Bob Marley",
+        audio: "/audios/Waiting In Vain - Bob Marley.mp3"
+      },
+      {
+        id: 12,
+        nome: "Como Tudo Deve Ser",
+        artista: "Charlie Brown",
+        audio: "/audios/Como Tudo Deve Ser - Charlie Brown.mp3"
+      }
+    ]
+  }
+]
+
+
+const musicas = [
+  {
+    id: 1,
+    nome: "Companions",
+    artista: "Amtrac",
+    audio: "/audios/Amtrac - Companions.mp3"
+  },
+  {
+    id: 2,
+    nome: "Madness To Mayhem",
+    artista: "Amtrac",
+    audio: "/audios/Amtrac - Madness To Mayhem.mp3"
+  },
+  {
+    id: 3,
+    nome: "Atlas",
+    artista: "Lane 8",
+    audio: "/audios/Lane 8 - Atlas.mp3"
+  },
+  {
+    id: 4,
+    nome: "Brightest Lights feat. POLIÇA",
+    artista: "Lane 8",
+    audio: "/audios/Lane 8 - Brightest Lights feat. POLIÇA.mp3"
+  },
+  {
+    id: 5,
+    nome: "Fingerprint",
+    artista: "Lane 8",
+    audio: "/audios/Lane 8 - Fingerprint.mp3"
+  },
+  {
+    id: 6,
+    nome: "Lose Yourself to Dance",
+    artista: "Daft Punk",
+    audio: "/audios/Lose Yourself to Dance - Daft Punk.mp3"
+  },
+  {
+    id: 7,
+    nome: "Meu Novo Mundo",
+    artista: "Charlie Brown",
+    audio: "/audios/Meu Novo Mundo - Charlie Brown.mp3"
+  },
+  {
+    id: 8,
+    nome: "Never Lost",
+    artista: "Amtrac",
+    audio: "/audios/Never Lost - Amtrac.mp3"
+  },
+  {
+    id: 9,
+    nome: "Rasta Courage",
+    artista: "Soja",
+    audio: "/audios/Rasta Courage - Soja.mp3"
+  },
+  {
+    id: 10,
+    nome: "True Love",
+    artista: "Soja",
+    audio: "/audios/True Love - Soja.mp3"
+  },
+  {
+    id: 11,
+    nome: "Waiting In Vain",
+    artista: "Bob Marley",
+    audio: "/audios/Waiting In Vain - Bob Marley.mp3"
+  },
+  {
+    id: 12,
+    nome: "Como Tudo Deve Ser",
+    artista: "Charlie Brown",
+    audio: "/audios/Como Tudo Deve Ser - Charlie Brown.mp3"
+  }
+]
