@@ -3,6 +3,8 @@ const server = express()
 
 server.use(express.json())
 
+server.listen(3000);
+
 const usuarios = [
     {
         nome: "Lucas Linhares",
@@ -308,3 +310,165 @@ const musicas = [
     audio: "/audios/Como Tudo Deve Ser - Charlie Brown.mp3"
   }
 ]
+
+// Listagem de playlists abertas
+
+server.get('/playlists', (req, res) => {
+    res.json(playlists);
+});
+
+
+// Listagem de playlists de um usuário
+
+server.get('/usuarios/:id/playlists', (req, res) => {
+    const {id} = req.params;
+
+    res.json(usuarios[id-1].playlists)
+})
+
+
+// Detalhe das playlists abertas
+
+server.get('/playlists/:id', (req, res) => {
+    const {id} = req.params;
+
+    res.json(playlists[id-1])
+})
+
+
+// Detalhe playlist do usuário
+
+server.get('/usuarios/:id/playlists/1', (req, res) => {
+    const {id} = req.params;
+
+    res.json(usuarios[id-1].playlists[0])
+})
+
+
+// Listar músicas
+
+server.get('/musicas', (req, res) => {
+    res.json(musicas)
+})
+
+
+// Cadastro 
+
+server.post('/usuarios', (req, res) => {
+    const {nome} = req.body;
+    const {idade} = req.body;
+    const {email} = req.body;
+    const {senha} = req.body;
+
+    const novoUsuario = {
+        nome: nome,
+        idade: idade,
+        email: email,
+        senha: senha,
+        playlists: []
+    }
+
+    usuarios.push(novoUsuario);
+    
+    res.json(usuarios);
+})
+
+
+// Login // SEM ENTENDER REQ QUERY
+
+server.get('/usuarios', (req, res) => {
+    const {emailParams} = req.query.email;
+    const {senha} = req.body;
+
+    const usuarioEncontrado = usuarios.filter((usuario) => { // ATRIBUTOS DO USUARIO VINDO UNDEFINED
+        usuario.email == emailParams
+    })
+
+    if(usuarioEncontrado === undefined){
+        res.json({message: "Usuário não encontrado"})
+    }
+    else{
+        if(usuarioEncontrado.senha == senha){
+            res.json({message: "Login efetuado com sucesso!"})
+        }
+        else{
+            res.json({message: "A senha informada é inválida"})
+        }
+    }
+})
+
+
+// Alterar conta 
+
+server.put('/usuarios/:id', (req, res) => {
+    const {id} = req.params
+
+    const {nome} = req.body
+    const {idade} = req.body
+    const {email} = req.body
+    const {senha} = req.body
+
+    usuarios[id-1].nome = nome
+    usuarios[id-1].idade = idade
+    usuarios[id-1].email = email
+    usuarios[id-1].senha = senha
+
+    res.json(usuarios)
+})
+
+
+// Criar playlist
+
+server.post('/usuarios/:id/playlists', (req, res) => {
+    const {id} = req.params
+    const {nome} = req.body
+    
+    const novaPlaylist = {
+        nome: nome,
+        capa: "/imagens/playlist-lofi.jpg",
+        musicas: []
+    }
+
+    usuarios[id-1].playlists.push(novaPlaylist)
+
+    res.json(usuarios[id-1].playlists)
+})
+
+
+// Adicionar música na playlists
+
+server.post('/usuarios/:id/playlists/1/musicas', (req, res) => {
+    const {id} = req.params
+
+    const {nome} = req.body
+    const {artista} = req.body
+
+    const novaMusica = {
+        nome: nome,
+        artista: artista,
+        audio: "/audios/Never Lost - Amtrac.mp3"
+    }
+
+    usuarios[id-1].playlists[0].musicas.push(novaMusica)
+
+    res.json(usuarios[id-1].playlists[0].musicas)
+
+})
+
+
+// Deletar música da playlist // REQ PARAMS BUG
+
+server.delete('/usuarios/:id/playlists/1/musicas/:id', (req, res) => {
+    const {idUsuario} = req.params[0]
+    const {idMusica} = req.params[1]
+
+    usuarios[idUsuario-1].playlists[0].musicas.splice(idMusica, 1)
+
+    res.json(usuarios[idUsuario-1].playlists[0].musicas)
+})
+
+
+
+
+
+
