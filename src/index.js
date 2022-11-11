@@ -377,23 +377,17 @@ server.post('/usuarios', (req, res) => {
 // Login // SEM ENTENDER REQ QUERY
 
 server.get('/usuarios', (req, res) => {
-    const {emailParams} = req.query.email;
-    const {senha} = req.body;
+    const {email} = req.query
 
-    const usuarioEncontrado = usuarios.filter((usuario) => { // ATRIBUTOS DO USUARIO VINDO UNDEFINED
-        usuario.email == emailParams
-    })
+    const usuarioEncontrado = usuarios.filter((usuario) =>  // ATRIBUTOS DO USUARIO VINDO UNDEFINED
+        usuario.email == email
+    )
 
     if(usuarioEncontrado === undefined){
         res.json({message: "Usuário não encontrado"})
     }
     else{
-        if(usuarioEncontrado.senha == senha){
-            res.json({message: "Login efetuado com sucesso!"})
-        }
-        else{
-            res.json({message: "A senha informada é inválida"})
-        }
+      res.json(usuarioEncontrado)
     }
 })
 
@@ -458,13 +452,24 @@ server.post('/usuarios/:id/playlists/1/musicas', (req, res) => {
 
 // Deletar música da playlist // REQ PARAMS BUG
 
-server.delete('/usuarios/:id/playlists/1/musicas/:id', (req, res) => {
-    const {idUsuario} = req.params[0]
-    const {idMusica} = req.params[1]
+server.delete('/usuarios/:idUsuario/playlists/1/musicas/:idMusica', (req, res) => {
+    const {idUsuario} = req.params
+    const {idMusica} = req.params
 
-    usuarios[idUsuario-1].playlists[0].musicas.splice(idMusica, 1)
+    usuarios[idUsuario-1].playlists[0].musicas.splice(idMusica-1, 1)
 
     res.json(usuarios[idUsuario-1].playlists[0].musicas)
+})
+
+
+// Buscar músicas
+
+server.get('/musicas', (req, res) => {
+    const {nome} = req.query;
+
+    const musicasFiltradas = musicas.filter((musica) => musica.nome.toLowerCase().includes(nome.toLowerCase()))
+
+    res.json(musicasFiltradas)
 })
 
 
