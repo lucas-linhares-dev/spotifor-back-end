@@ -345,13 +345,6 @@ server.get('/usuarios/:id/playlists/1', (req, res) => {
 })
 
 
-// Listar músicas
-
-server.get('/musicas', (req, res) => {
-    res.json(musicas)
-})
-
-
 // Cadastro 
 
 server.post('/usuarios', (req, res) => {
@@ -467,9 +460,14 @@ server.delete('/usuarios/:idUsuario/playlists/1/musicas/:idMusica', (req, res) =
 server.get('/musicas', (req, res) => {
     const {nome} = req.query;
 
-    const musicasFiltradas = musicas.filter((musica) => musica.nome.toLowerCase().includes(nome.toLowerCase()))
+    if(!nome){
+      res.json(musicas)
+    }
+    else{
+      const musicasFiltradas = musicas.filter((musica) => musica.nome.toLowerCase().includes(nome.toLowerCase()))
 
-    res.json(musicasFiltradas)
+      res.json(musicasFiltradas)
+    }
 })
 
 
