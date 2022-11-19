@@ -1,9 +1,9 @@
 const express = require('express')
 const server = express()
+const mongoose = require('mongoose')
 
 server.use(express.json())
 
-server.listen(3000);
 
 const usuarios = [
     {
@@ -472,6 +472,15 @@ server.get('/musicas', (req, res) => {
 
 
 
+
+mongoose.connect('mongodb+srv://lucas:lucas321@spotifor.mdrjo4z.mongodb.net/spotiformongo?retryWrites=true&w=majority')
+  .then(() => {
+    server.listen(3001);
+    console.log('MongoDB conectado!')
+  })
+  .catch((erro) => {
+    console.log(erro)
+  })
 
 
 
