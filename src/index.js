@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const server = express()
 const mongoose = require('mongoose')
 
@@ -7,6 +8,7 @@ const Playlist = require('../models/Playlist')
 const Usuario = require('../models/Usuario')
 
 server.use(express.json())
+server.use(cors())
 
 
 
@@ -143,17 +145,18 @@ server.post('/usuarios/:id/playlists', async (req, res) => {
 
 // Adicionar música na playlists 
 
-server.post('/usuarios/:idUsuario/playlists/1/musicas/:idMusica', async (req, res) => {
+server.post('/usuarios/:idUsuario/playlists/1', async (req, res) => {
     const idUsuario = req.params.idUsuario
-    const idMusica = req.params.idMusica
+    //const idMusica = req.params.idMusica
+    const musica = req.body;
 
     const usuario = await Usuario.findOne({_id: idUsuario})
 
-    const musicaAdicionar = await Musica.findOne({_id: idMusica})
+    //const musicaAdicionar = await Musica.findOne({_id: idMusica})
 
-    usuario.playlists[0].musicas.push(musicaAdicionar)
+    usuario.playlists[0].musicas.push(musica)
 
-    await Usuario.updateOne({_id: id}, usuario)
+    await Usuario.updateOne({_id: idUsuario}, usuario)
 
     res.json(usuario.playlists[0].musicas)
 
@@ -170,7 +173,7 @@ server.delete('/usuarios/:idUsuario/playlists/1/musicas/:idMusica', async (req, 
 
     usuario.playlists[0].musicas.splice(idMusica-1, 1)
 
-    await Usuario.updateOne({_id: id}, usuario)
+    await Usuario.updateOne({_id: idUsuario}, usuario)
 
     res.json(usuario.playlists[0].musicas)
 })
