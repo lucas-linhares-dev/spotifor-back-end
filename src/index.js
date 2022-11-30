@@ -119,6 +119,16 @@ server.put('/usuarios/:id', async (req, res) => {
     res.json(usuario)
 })
 
+// Pegar um usuário
+
+server.get('/usuarios/:id', async (req, res) => {
+  const id = req.params.id
+
+  const usuario = await Usuario.findOne({_id: id})
+
+  res.json(usuario)
+})
+
 
 // Criar playlist
 
@@ -193,6 +203,29 @@ server.get('/musicas', async (req, res) => {
 
       res.json(musicasFiltradas)
     }
+})
+
+
+// Buscar uma música
+
+
+server.get('/musicas/:id', async (req, res) => {
+  const id = req.params.id
+
+  const musica = await Musica.findOne({_id: id})
+
+  res.json(musica)
+})
+
+
+// Buscar uma playlist
+
+server.get('/playlists/:id', async (req, res) => {
+  const id = req.params.id
+
+  const playlist = await Playlist.findOne({_id: id})
+
+  res.json(playlist)
 })
 
 
