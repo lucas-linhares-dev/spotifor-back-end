@@ -108,11 +108,13 @@ server.put('/usuarios/:id', async (req, res) => {
     const {idade} = req.body
     const {email} = req.body
     const {senha} = req.body
+    const {playlists} = req.body
 
     usuario.nome = nome
     usuario.idade = idade
     usuario.email = email
     usuario.senha = senha
+    usuario.playlists = playlists
 
     await Usuario.updateOne({_id: id}, usuario)
 
